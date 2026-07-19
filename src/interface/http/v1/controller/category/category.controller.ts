@@ -3,8 +3,10 @@ import { CreateCategoryUseCase } from "../../../../../application/usecase/catego
 import { AppError } from "../../../../../application/errors/app-error";
 import {Request,Response,NextFunction} from 'express';
 import { CategoryDto } from "../../../../../application/interface/dtos/category/create-category.dto";
+import { createLogger } from "../../../../../infrastructor/logger/create-logger";
 
 
+const logger = createLogger();
 
 export class CategoryController{
 
@@ -17,11 +19,13 @@ export class CategoryController{
 
         try{
 
-            const {name,branch_id} = req.body;
+            const manager = (req as any).manager;
 
-            if(!name || !branch_id)throw new AppError("Email and password are required",400);
+            const {name} = req.body;
 
-            const data : CategoryDto = {name,branch_id};
+            if(!name )throw new AppError("Email and password are required",400);
+
+            const data : CategoryDto = {name,branch_id :manager.branch_id};
 
             const result : any = await this.createCategoryUseCase.execute(data);
 

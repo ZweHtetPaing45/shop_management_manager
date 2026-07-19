@@ -1,14 +1,14 @@
 import bcrypt from "bcrypt";
 
 
-export class HashPasswrod{
+export class HashPassword{
 
-    static hash(passwrod: string){
-        return bcrypt.hash(passwrod,10);
+    static hash(password: string){
+        return bcrypt.hash(password,10);
     }
 
-    static compare(passwrod: string,hash_password: string){
-        return bcrypt.compare(passwrod,hash_password);
+    static compare(password: string,hash_password: string){
+        return bcrypt.compare(password,hash_password);
     }
 
 }

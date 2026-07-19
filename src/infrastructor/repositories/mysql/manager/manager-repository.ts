@@ -10,7 +10,7 @@ export class MySQLManagerRepository implements ManagerRepository{
 
     async findByEmail(email: string): Promise<Manager | null> {
         
-        const [rows] : any = await pool.query('select * from employees where email = ?',[email]);
+        const [rows] : any = await pool.query('select * from employee where email = ?',[email]);
 
         if(!rows)throw new AppError('Can not found account',400);
 
@@ -26,7 +26,7 @@ export class MySQLManagerRepository implements ManagerRepository{
 
     async findById(id: number): Promise<Manager | null> {
         
-        const [rows] : any = await pool.query('select * from employees where id = ?',[id]);
+        const [rows] : any = await pool.query('select * from employee where id = ?',[id]);
 
         if(!rows)throw new AppError('Can not found account',400);
 
