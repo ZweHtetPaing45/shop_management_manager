@@ -34,8 +34,6 @@ export class AuthMiddleware{
 
             (req as any).manager = manager;
             
-            logger.info(`Owner ID from middleware: ${manager}`);
-
             next();
 
         }catch(error){

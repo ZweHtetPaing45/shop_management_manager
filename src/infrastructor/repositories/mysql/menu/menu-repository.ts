@@ -24,7 +24,6 @@ export class MySQLMenuRepository implements MenuRepository{
             [data.category_id,data.name,menu_image_url,menu_public_id,data.price,data.size,data.quantity]
         );
 
-
         if(!result)throw new AppError("Create Menu Error",400);
 
         return new Menu(result.insertId,data.category_id,data.name,menu_image_url,menu_public_id,data.price,data.size,data.quantity,null);

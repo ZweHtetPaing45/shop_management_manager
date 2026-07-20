@@ -12,4 +12,6 @@ export class Production{
         public readonly duration: number
     ){}
 
+    
+
 }
