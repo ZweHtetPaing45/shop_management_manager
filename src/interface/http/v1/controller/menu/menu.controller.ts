@@ -18,13 +18,19 @@ export class MenuController{
 
         try{
 
-            const {category_id,name,price,size,quantity} = (req as any).body;
+            let {category_id,name,price,size,quantity} = (req as any).body;
 
-            if(!category_id || !name || !price || !size || !quantity)throw new AppError("Enter the input Data Error",500);
+            if(!category_id || !name || !quantity)throw new AppError("Enter the input Data Error",500);
 
             const file = (req as any).file;
 
-            if(!file)throw new AppError('Enter imate file Error',500);
+            if(!size || !price){
+                size = null;
+                price = null;
+            }
+
+
+            if(!file)throw new AppError('Enter image file Error',500);
 
             const data : MenuDto = {
                 category_id,

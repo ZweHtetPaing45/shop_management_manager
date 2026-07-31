@@ -6,8 +6,8 @@ export class Menu{
         public name : string,
         public menu_image_url : string,
         public menu_public_id : string | null,
-        public price : number,
-        public size : string,
+        public price : number | null,
+        public size : string | null,
         public quantity : number,
         public status : boolean | null
     ){}
