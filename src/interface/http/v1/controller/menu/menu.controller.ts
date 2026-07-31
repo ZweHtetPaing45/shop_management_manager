@@ -1,9 +1,9 @@
 import { AppError } from "../../../../../application/errors/app-error";
-import { Menu } from "../../../../../domain/entities/menu/menu.entity";
 import { createLogger } from "../../../../../infrastructor/logger/create-logger";
 import { CreateMenuUseCase } from "../../../../../application/usecase/menu/create-menu.use-case";
 import { Request,Response,NextFunction } from "express";
 import { MenuDto } from "../../../../../application/interface/dtos/menu/create-menu.dto";
+import { FindBranchMenuUseCase } from "../../../../../application/usecase/menu/find-branch-menu.use-case";
 
 
 const logger = createLogger();
@@ -11,7 +11,8 @@ const logger = createLogger();
 export class MenuController{
 
     constructor(
-        private createMenUseCase : CreateMenuUseCase
+        private createMenUseCase : CreateMenuUseCase,
+        private findBranchMenuUseCase : FindBranchMenuUseCase
     ){}
 
     async create(req: Request,res: Response,next: NextFunction){
@@ -61,5 +62,28 @@ export class MenuController{
         }
 
     }
+
+    async getAllMenu(req:Request,res:Response,next:NextFunction){
+
+        try{
+
+            const manager = (req as any).manager;
+
+            const branch_id = manager.branch_id;
+
+            const result : any = await this.findBranchMenuUseCase.execute(branch_id);
+
+            return res.status(201).json({
+                    success: true,
+                    message: "List Menu Data",
+                    result : result
+                });
+
+        }catch(error){
+            next(error)
+        }
+
+    }
+    
 
 }

@@ -19,8 +19,6 @@ export class MySQLBranchOrderItemRepository implements BranchOrderItemRepository
             item.quantity
         ]);
 
-        console.log(values);
-
         const [createBranchOrder] : any = await pool.query(`insert into branch_order_item(branch_id,branch_inventory_id,quantity) values ?`,
             [values]
         );
