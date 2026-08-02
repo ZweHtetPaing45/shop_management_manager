@@ -5,7 +5,7 @@ import { createLogger } from "../infrastructor/logger/create-logger";
 
 const logger = createLogger();
 
-const base_url = "http://localhost:3000";
+const base_url = "http://38.60.244.126:3000";
 
 //Upload
 export const uploadImage = async (file: Express.Multer.File,folder: string = "")=>{
