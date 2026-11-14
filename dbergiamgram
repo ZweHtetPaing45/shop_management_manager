@@ -1,0 +1,326 @@
+//login Owner
+Table owner{
+  id integer [primary key]
+  email varchar [unique]
+  password varchar
+  create_at timestamp
+}
+
+// Table branch_order{
+//   id integer [primary key]
+//   manager_id integer
+//   amount integer
+//   create_at timestamp
+// }
+
+Table branch_order_item{
+  id integer [primary key]
+  branch_id integer
+  branch_inventory_id integer
+  quantity integer
+  status enum("pending","approved","cancelled")
+  create_at timestamp
+}
+
+//short cards (ဆိုင်ခွဲ)
+Table branches{
+  id integer [primary key]
+  name varchar
+  branch_image_url text
+  branch_public_id text
+  manager_name varchar
+  address text
+  phone integer
+  create_at timestamp
+}
+
+Table categorys{
+  id integer [primary key]
+  branch_id integer
+  name varchar
+  create_at timestamp
+}
+
+//menu (ရောင်းမဲ့ product)
+Table menus{
+  id integer [primary key]
+  category_id integer
+  name varchar
+  menu_image_url text
+  menu_public_id text
+  price integer
+  size enum("normal")
+  quantity integer
+  status boolean
+  create_at timestamp
+}
+
+Table menu_variants{
+  id integer [primary key]
+  menu_id integer
+  size varchar
+  price integer
+  quantity integer
+  create_at timestamp
+}
+
+Table owner_inventory{
+  id integer [primary key]
+  code varchar
+  item varchar
+  unit varchar
+  cost integer
+  stock_quantity integer
+  date date
+  create_at timestamp
+}
+
+//ကုန်ကြမ်း
+Table branch_inventory{
+  id integer [primary key]
+  owner_inventory_id integer
+  name varchar
+  unit varchar
+  stock_quantity integer
+  branch_id integer
+  create_at timestamp
+}
+
+
+Table employees{
+  id integer [primary key]
+  name varchar
+  email varchar [unique]
+  phone varchar
+  address varchar
+  password varchar
+  role_id integer
+  branch_id integer
+  create_at timestamp
+}
+
+Table roles{
+  id integer [primary key]
+  name varchar
+  create_at timestamp
+}
+
+//Production
+Table owner_production{
+  id integer [primary key]
+  production_variant_id integer
+  name varchar
+  product_image_url text
+  product_public_id text
+  planned_quantity integer
+  duration integer
+  create_at timestamp
+}
+
+Table production_variants{
+  id integer [primary key]
+  size varchar
+  create_at timestamp
+}
+
+Table owner_production_ingredients{
+  id integer [primary key]
+  ingredient_id integer
+  owner_production_id integer
+  create_at timestamp
+}
+
+Table ingredient{
+  id integer [primary key]
+  name varchar
+  quantity integer
+  unit varchar
+  create_at timestamp
+}
+
+Table branch_production{
+  id integer [primary key]
+  branch_id integer
+  production_variant_id integer
+  name varchar
+  planned_quantity integer
+  actual_quantity integer
+  damaged_quantity integer
+  duration integer
+  create_at timestamp
+}
+
+Table branch_production_ingredients{
+  id integer [primary key]
+  branch_production_id integer
+  branch_inventory_id integer
+  quantity integer
+  create_at timestamp
+}
+
+Table branch_employees {
+  id bigint [pk, increment]
+  branch_id bigint 
+  role_id bigint
+  full_name varchar(100)
+  nrc_number varchar(50) [not null, unique]
+  date_of_birth date
+  gender enum('male','female','other')
+  age integer
+  phone_number varchar(20)
+  email varchar(150) [unique]
+  password varchar(200)
+  highest_education varchar(100)
+  address text
+  last_employment_detail text
+  employment_start_date date
+  contract_type enum('probationary','permanent')
+  created_at timestamp
+}
+
+
+Table branch_roles {
+  id bigint [pk, increment]
+  job_title varchar(100)
+  job_description text
+  sop_assignment text
+  policy_binding text
+  issued_supplies text
+  basic_salary integer
+  working_days_per_month integer
+  created_at timestamp
+}
+
+Table employee_operation_records {
+  id bigint [pk, increment]
+  branch_employee_id bigint
+  bonus_amount integer
+  fine_amount integer
+  leave_days integer
+  off_days integer
+  employment_status enum("active","warning","leave")
+  manager_remarks text
+  created_at timestamp
+}
+
+//quantity
+// Table product_recipes{
+//   id integer [primary key]
+//   menu_id integer
+//   ingredient_id integer
+//   quantity integer
+//   create_at timestamp
+// }
+
+//productions
+// Table productions{
+//   id integer [primary key]
+//   product_name varchar
+//   branch_id integer
+//   planned_quantity integer
+//   actual_quantity integer
+//   damaged_quantity integer
+//   duration integer // started_at timestamp and com
+//   size varchar
+//   create_at timestamp
+// }
+
+// Table sales{
+//   id integer [primary key]
+//   branch_id integer
+//   payment_id integer
+//   total_amount integer
+//   create_at timestamp
+// }
+
+// Table sale_items{
+//   id integer [primary key]
+//   sale_id integer
+//   menu_id integer
+//   price integer
+//   quantity integer
+//   create_at timestamp
+// }
+
+// Table payments{
+//   id integer [primary key]
+//   payment_image_url text
+//   payment_public_id text
+//   payment_method varchar
+//   payment_name varchar
+//   payment_number varchar
+//   create_at timestamp
+// }
+
+
+
+
+
+
+
+Ref: "branches"."id" < "branch_inventory"."branch_id"
+
+
+
+
+
+
+
+// Ref: "sales"."id" < "sale_items"."sale_id"
+
+
+// Ref: "payments"."id" < "sales"."payment_id"
+
+Ref: "owner_inventory"."id" < "branch_inventory"."owner_inventory_id"
+
+Ref: "branches"."id" < "categorys"."branch_id"
+
+Ref: "categorys"."id" < "menus"."category_id"
+
+
+
+
+Ref: "branch_inventory"."id" < "branch_order_item"."branch_inventory_id"
+
+
+Ref: "menus"."id" < "menu_variants"."menu_id"
+
+
+
+
+Ref: "roles"."id" < "employees"."role_id"
+
+Ref: "branches"."id" < "employees"."branch_id"
+
+
+
+
+
+
+
+Ref: "owner_production"."id" < "owner_production_ingredients"."owner_production_id"
+
+
+Ref: "production_variants"."id" < "owner_production"."production_variant_id"
+
+Ref: "production_variants"."id" < "branch_production"."production_variant_id"
+
+Ref: "branch_production"."id" < "branch_production_ingredients"."branch_production_id"
+
+Ref: "branch_inventory"."id" < "branch_production_ingredients"."branch_inventory_id"
+
+Ref: "branch_inventory"."id" < "branch_production"."branch_id"
+
+Ref: "ingredient"."id" < "owner_production_ingredients"."ingredient_id"
+
+
+
+
+
+Ref: "branches"."id" < "branch_employees"."branch_id"
+
+Ref: "branch_roles"."id" < "branch_employees"."role_id"
+
+Ref: "branch_employees"."id" < "employee_operation_records"."branch_employee_id"
+
+Ref: "branches"."id" < "branch_order_item"."branch_id"
